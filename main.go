@@ -10,7 +10,6 @@ func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/", HomeHandler)
 	router.HandleFunc("/pizza", OrderPizzaHandler).Methods("POST")
-
 	err := http.ListenAndServe(":8080", router)
 	if err != nil {
 		panic(err.Error())

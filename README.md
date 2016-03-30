@@ -25,3 +25,15 @@ Some of the practices and principles I tried to demonstrate in this sample proje
 [dependencies]: https://docs.google.com/document/d/1Bz5-UB7g2uPBdOx-rw5t9MxJwkfpx90cqG9AFL0JAYo/edit
 [gvt]: https://github.com/FiloSottile/gvt
 [gexec]: https://onsi.github.io/gomega/#gexec-testing-external-processes
+
+### TODO
+[x] main.go
+[x] gvt
+[x] webserver with /pizza/order route
+[ ] order pizza use case
+[ ] pizza repository
+[ ] middleware (composition)
+[ ] logging
+[ ] stats ?
+[ ] configuration (port, log server, stats server)
+[ ] panic handler (middleware?)
