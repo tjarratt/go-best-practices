@@ -1,6 +1,8 @@
 # Best Practices
 
-A collection of things I consider to be best practices in test-driven go development. This was inspired by Can Berk Guder's [iOS best practices repo](https://github.com/cbguder/bestpractices).
+A collection of things I consider to be best practices in test-driven go development.
+
+This was inspired by Can Berk Guder's [iOS best practices repo](https://github.com/cbguder/bestpractices).
 
 ## Practices and Principles
 
@@ -27,13 +29,13 @@ Some of the practices and principles I tried to demonstrate in this sample proje
 [gexec]: https://onsi.github.io/gomega/#gexec-testing-external-processes
 
 ### TODO
-[x] main.go
-[x] gvt
-[x] webserver with /pizza/order route
-[ ] order pizza use case
-[ ] pizza repository
-[ ] middleware (composition)
-[ ] logging
-[ ] stats ?
-[ ] configuration (port, log server, stats server)
-[ ] panic handler (middleware?)
+* [x] main.go
+* [x] gvt
+* [x] webserver with /pizza/order route
+* [ ] order pizza use case
+* [ ] pizza repository
+* [ ] middleware (composition)
+* [ ] logging
+* [ ] stats ?
+* [ ] configuration (port, log server, stats server)
+* [ ] panic handler (middleware?)
