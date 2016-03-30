@@ -1,0 +1,7 @@
+language: go
+go:
+  - 1.6
+sudo : false # uses new containerized infrastructure
+install:
+  - go get -v -t ./...
+script: bin/ci.sh
