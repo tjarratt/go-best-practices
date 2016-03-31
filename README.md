@@ -32,8 +32,9 @@ Some of the practices and principles I tried to demonstrate in this sample proje
 * [x] main.go
 * [x] gvt
 * [x] webserver with /pizza/order route
-* [ ] order pizza use case
-* [ ] pizza repository
+* [x] order pizza use case
+* [x] pizza repository
+* [ ] wire up /pizza/order to usecase
 * [ ] middleware (composition)
 * [ ] logging
 * [ ] stats ?
