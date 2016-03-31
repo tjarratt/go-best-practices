@@ -1,6 +1,7 @@
 package usecases_test
 
 import (
+	"errors"
 	"time"
 
 	"github.com/tjarratt/go-best-practices/api/apifakes"
@@ -48,7 +49,7 @@ var _ = Describe("OrderPizzaUseCase", func() {
 			pizzaRepository.MakePizzaReturns(domain.Pizza{
 				Dough:    domain.Deep,
 				Toppings: []domain.Ingredient{domain.Pepperoni{}},
-			}, 666)
+			}, 666, nil)
 		})
 
 		It("should return a successful response when given a reasonable order request", func() {
@@ -71,6 +72,16 @@ var _ = Describe("OrderPizzaUseCase", func() {
 				Dough:    domain.Deep,
 				Toppings: []domain.Ingredient{domain.Pepperoni{}},
 			}))
+		})
+
+		Context("when submitting the order fails", func() {
+			BeforeEach(func() {
+				pizzaRepository.MakePizzaReturns(domain.Pizza{}, 0, errors.New("whoops!"))
+			})
+
+			It("should return an error", func() {
+				Expect(err).To(HaveOccurred())
+			})
 		})
 	})
 

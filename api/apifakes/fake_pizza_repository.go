@@ -9,7 +9,7 @@ import (
 )
 
 type FakePizzaRepository struct {
-	MakePizzaStub        func(domain.DoughType, []domain.Ingredient) (domain.Pizza, int64)
+	MakePizzaStub        func(domain.DoughType, []domain.Ingredient) (domain.Pizza, int64, error)
 	makePizzaMutex       sync.RWMutex
 	makePizzaArgsForCall []struct {
 		arg1 domain.DoughType
@@ -18,10 +18,11 @@ type FakePizzaRepository struct {
 	makePizzaReturns struct {
 		result1 domain.Pizza
 		result2 int64
+		result3 error
 	}
 }
 
-func (fake *FakePizzaRepository) MakePizza(arg1 domain.DoughType, arg2 []domain.Ingredient) (domain.Pizza, int64) {
+func (fake *FakePizzaRepository) MakePizza(arg1 domain.DoughType, arg2 []domain.Ingredient) (domain.Pizza, int64, error) {
 	fake.makePizzaMutex.Lock()
 	fake.makePizzaArgsForCall = append(fake.makePizzaArgsForCall, struct {
 		arg1 domain.DoughType
@@ -31,7 +32,7 @@ func (fake *FakePizzaRepository) MakePizza(arg1 domain.DoughType, arg2 []domain.
 	if fake.MakePizzaStub != nil {
 		return fake.MakePizzaStub(arg1, arg2)
 	} else {
-		return fake.makePizzaReturns.result1, fake.makePizzaReturns.result2
+		return fake.makePizzaReturns.result1, fake.makePizzaReturns.result2, fake.makePizzaReturns.result3
 	}
 }
 
@@ -47,12 +48,13 @@ func (fake *FakePizzaRepository) MakePizzaArgsForCall(i int) (domain.DoughType, 
 	return fake.makePizzaArgsForCall[i].arg1, fake.makePizzaArgsForCall[i].arg2
 }
 
-func (fake *FakePizzaRepository) MakePizzaReturns(result1 domain.Pizza, result2 int64) {
+func (fake *FakePizzaRepository) MakePizzaReturns(result1 domain.Pizza, result2 int64, result3 error) {
 	fake.MakePizzaStub = nil
 	fake.makePizzaReturns = struct {
 		result1 domain.Pizza
 		result2 int64
-	}{result1, result2}
+		result3 error
+	}{result1, result2, result3}
 }
 
 var _ api.PizzaRepository = new(FakePizzaRepository)

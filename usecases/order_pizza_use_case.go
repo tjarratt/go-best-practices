@@ -47,10 +47,14 @@ func (usecase orderPizzaUseCase) Execute(request OrderPizzaRequest) (PizzaRespon
 		return PizzaResponse{}, &InvalidAddressError{}
 	}
 
-	pizza, orderNumber := usecase.pizzaRepository.MakePizza(
+	pizza, orderNumber, err := usecase.pizzaRepository.MakePizza(
 		request.Dough,
 		request.Toppings,
 	)
+	if err != nil {
+		return PizzaResponse{}, err
+	}
+
 	deliveryTime := usecase.deliveryEstimator.EstimatedDeliveryTime(pizza)
 
 	return PizzaResponse{

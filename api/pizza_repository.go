@@ -6,5 +6,5 @@ import (
 
 //go:generate counterfeiter . PizzaRepository
 type PizzaRepository interface {
-	MakePizza(domain.DoughType, []domain.Ingredient) (domain.Pizza, int64)
+	MakePizza(domain.DoughType, []domain.Ingredient) (domain.Pizza, int64, error)
 }
