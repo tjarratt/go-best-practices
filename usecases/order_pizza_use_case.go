@@ -21,7 +21,7 @@ type OrderPizzaRequest struct {
 
 type PizzaResponse struct {
 	OrderNumber       int64
-	EstimatedDelivery time.Time
+	EstimatedDelivery time.Duration
 }
 
 func NewOrderPizzaUseCase(

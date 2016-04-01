@@ -35,7 +35,7 @@ var _ = Describe("OrderPizzaUseCase", func() {
 	})
 
 	Context("when the pizza order request is reasonable", func() {
-		var expectedDeliveryTime = time.Now()
+		var expectedDeliveryTime = time.Minute
 
 		BeforeEach(func() {
 			request = OrderPizzaRequest{

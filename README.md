@@ -34,9 +34,12 @@ Some of the practices and principles I tried to demonstrate in this sample proje
 * [x] webserver with /pizza/order route
 * [x] order pizza use case
 * [x] pizza repository
-* [ ] wire up /pizza/order to usecase
+* [x] wire up /pizza/order to usecase
+* [x] minimal gexec test
+* [ ] gexec test asserts we can make a single http request
 * [ ] middleware (composition)
 * [ ] logging
 * [ ] stats ?
 * [ ] configuration (port, log server, stats server)
 * [ ] panic handler (middleware?)
+* [ ] find a better name for "domain" package (h/t to Dave Cheney)

@@ -10,17 +10,17 @@ import (
 )
 
 type FakePizzaDeliveryEstimator struct {
-	EstimatedDeliveryTimeStub        func(domain.Pizza) time.Time
+	EstimatedDeliveryTimeStub        func(domain.Pizza) time.Duration
 	estimatedDeliveryTimeMutex       sync.RWMutex
 	estimatedDeliveryTimeArgsForCall []struct {
 		arg1 domain.Pizza
 	}
 	estimatedDeliveryTimeReturns struct {
-		result1 time.Time
+		result1 time.Duration
 	}
 }
 
-func (fake *FakePizzaDeliveryEstimator) EstimatedDeliveryTime(arg1 domain.Pizza) time.Time {
+func (fake *FakePizzaDeliveryEstimator) EstimatedDeliveryTime(arg1 domain.Pizza) time.Duration {
 	fake.estimatedDeliveryTimeMutex.Lock()
 	fake.estimatedDeliveryTimeArgsForCall = append(fake.estimatedDeliveryTimeArgsForCall, struct {
 		arg1 domain.Pizza
@@ -45,10 +45,10 @@ func (fake *FakePizzaDeliveryEstimator) EstimatedDeliveryTimeArgsForCall(i int) 
 	return fake.estimatedDeliveryTimeArgsForCall[i].arg1
 }
 
-func (fake *FakePizzaDeliveryEstimator) EstimatedDeliveryTimeReturns(result1 time.Time) {
+func (fake *FakePizzaDeliveryEstimator) EstimatedDeliveryTimeReturns(result1 time.Duration) {
 	fake.EstimatedDeliveryTimeStub = nil
 	fake.estimatedDeliveryTimeReturns = struct {
-		result1 time.Time
+		result1 time.Duration
 	}{result1}
 }
 
