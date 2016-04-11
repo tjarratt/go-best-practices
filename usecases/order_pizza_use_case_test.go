@@ -4,8 +4,8 @@ import (
 	"errors"
 	"time"
 
-	"github.com/tjarratt/go-best-practices/api/apifakes"
 	"github.com/tjarratt/go-best-practices/domain"
+	"github.com/tjarratt/go-best-practices/usecases/usecasesfakes"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -15,8 +15,8 @@ import (
 var _ = Describe("OrderPizzaUseCase", func() {
 	var (
 		subject           OrderPizzaUseCase
-		pizzaRepository   *apifakes.FakePizzaRepository
-		deliveryEstimator *apifakes.FakePizzaDeliveryEstimator
+		pizzaFactory      *usecasesfakes.FakePizzaFactory
+		deliveryEstimator *usecasesfakes.FakePizzaDeliveryEstimator
 
 		request  OrderPizzaRequest
 		response PizzaResponse
@@ -24,10 +24,10 @@ var _ = Describe("OrderPizzaUseCase", func() {
 	)
 
 	BeforeEach(func() {
-		pizzaRepository = new(apifakes.FakePizzaRepository)
-		deliveryEstimator = new(apifakes.FakePizzaDeliveryEstimator)
+		pizzaFactory = new(usecasesfakes.FakePizzaFactory)
+		deliveryEstimator = new(usecasesfakes.FakePizzaDeliveryEstimator)
 
-		subject = NewOrderPizzaUseCase(pizzaRepository, deliveryEstimator)
+		subject = NewOrderPizzaUseCase(pizzaFactory, deliveryEstimator)
 	})
 
 	JustBeforeEach(func() {
@@ -46,7 +46,7 @@ var _ = Describe("OrderPizzaUseCase", func() {
 			}
 
 			deliveryEstimator.EstimatedDeliveryTimeReturns(expectedDeliveryTime)
-			pizzaRepository.MakePizzaReturns(domain.Pizza{
+			pizzaFactory.MakePizzaReturns(domain.Pizza{
 				Dough:    domain.Deep,
 				Toppings: []domain.Ingredient{domain.Pepperoni{}},
 			}, 666, nil)
@@ -59,7 +59,7 @@ var _ = Describe("OrderPizzaUseCase", func() {
 		})
 
 		It("should make the pizza the customer ordered", func() {
-			doughType, ingredients := pizzaRepository.MakePizzaArgsForCall(0)
+			doughType, ingredients := pizzaFactory.MakePizzaArgsForCall(0)
 			Expect(doughType).To(Equal(domain.Deep))
 			Expect(ingredients).To(Equal([]domain.Ingredient{domain.Pepperoni{}}))
 		})
@@ -76,7 +76,7 @@ var _ = Describe("OrderPizzaUseCase", func() {
 
 		Context("when submitting the order fails", func() {
 			BeforeEach(func() {
-				pizzaRepository.MakePizzaReturns(domain.Pizza{}, 0, errors.New("whoops!"))
+				pizzaFactory.MakePizzaReturns(domain.Pizza{}, 0, errors.New("whoops!"))
 			})
 
 			It("should return an error", func() {
@@ -101,7 +101,7 @@ var _ = Describe("OrderPizzaUseCase", func() {
 		})
 
 		It("should not try to make the pizza", func() {
-			Expect(pizzaRepository.MakePizzaCallCount()).To(Equal(0))
+			Expect(pizzaFactory.MakePizzaCallCount()).To(Equal(0))
 		})
 	})
 
@@ -121,7 +121,7 @@ var _ = Describe("OrderPizzaUseCase", func() {
 		})
 
 		It("should not try to make the pizza", func() {
-			Expect(pizzaRepository.MakePizzaCallCount()).To(Equal(0))
+			Expect(pizzaFactory.MakePizzaCallCount()).To(Equal(0))
 		})
 	})
 })

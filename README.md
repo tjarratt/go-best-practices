@@ -1,6 +1,6 @@
 # Best Practices
 
-A collection of things I consider to be best practices in test-driven go development.
+A collection of things I consider to be best practices in test-driven go development. This applies mainly to writing *applications* in Go, in particular JSON APIs, but can be extrapolated to command line tools, libraries and framework too.
 
 This was inspired by Can Berk Guder's [iOS best practices repo](https://github.com/cbguder/bestpractices).
 
@@ -9,10 +9,11 @@ This was inspired by Can Berk Guder's [iOS best practices repo](https://github.c
 Some of the practices and principles I tried to demonstrate in this sample project are:
 
 * [Test-driven development][tdd] using [Ginkgo][] and [Gomega][]
-* [Dependency injection][di] using hand-rolled constructor functions.
-* [Vendored dependencies][dependencies] with [gvt][gvt]
 * [Single responsibility principle][srp]
 * [Composition over inheritance][coi]
+* [Dependency injection][di] using hand-rolled constructor functions
+* [Declaring interface for dependencies near the consumer][interface]
+* [Vendored dependencies][dependencies] with [gvt][gvt]
 * [Responsible usage of concurrency][concurrency]
 * [Minimal integration tests][integrated] with [Gomega's gexec package][gexec]
 
@@ -22,6 +23,7 @@ Some of the practices and principles I tried to demonstrate in this sample proje
 [di]: http://en.wikipedia.org/wiki/Dependency_injection
 [srp]: http://en.wikipedia.org/wiki/Single_responsibility_principle
 [tdd]: http://en.wikipedia.org/wiki/Test-driven_development
+[interface]: https://github.com/tjarratt/go-best-practices/blob/master/usecases/order_pizza_use_case.go#L24
 [concurrency]: https://divan.github.io/posts/go_concurrency_visualize/
 [integrated]: http://blog.thecodewhisperer.com/permalink/integrated-tests-are-a-scam
 [dependencies]: https://docs.google.com/document/d/1Bz5-UB7g2uPBdOx-rw5t9MxJwkfpx90cqG9AFL0JAYo/edit

@@ -3,7 +3,6 @@ package usecases
 import (
 	"time"
 
-	"github.com/tjarratt/go-best-practices/api"
 	"github.com/tjarratt/go-best-practices/domain"
 )
 
@@ -12,31 +11,29 @@ type OrderPizzaUseCase interface {
 	Execute(OrderPizzaRequest) (PizzaResponse, error)
 }
 
-type OrderPizzaRequest struct {
-	Whom     string
-	Address  string
-	Dough    domain.DoughType
-	Toppings []domain.Ingredient
+//go:generate counterfeiter . PizzaFactory
+type PizzaFactory interface {
+	MakePizza(domain.DoughType, []domain.Ingredient) (domain.Pizza, int64, error)
 }
 
-type PizzaResponse struct {
-	OrderNumber       int64
-	EstimatedDelivery time.Duration
+//go:generate counterfeiter . PizzaDeliveryEstimator
+type PizzaDeliveryEstimator interface {
+	EstimatedDeliveryTime(domain.Pizza) time.Duration
 }
 
 func NewOrderPizzaUseCase(
-	pizzaRepository api.PizzaRepository,
-	deliveryEstimator api.PizzaDeliveryEstimator,
+	pizzaFactory PizzaFactory,
+	deliveryEstimator PizzaDeliveryEstimator,
 ) OrderPizzaUseCase {
 	return orderPizzaUseCase{
-		pizzaRepository:   pizzaRepository,
+		pizzaFactory:      pizzaFactory,
 		deliveryEstimator: deliveryEstimator,
 	}
 }
 
 type orderPizzaUseCase struct {
-	pizzaRepository   api.PizzaRepository
-	deliveryEstimator api.PizzaDeliveryEstimator
+	pizzaFactory      PizzaFactory
+	deliveryEstimator PizzaDeliveryEstimator
 }
 
 func (usecase orderPizzaUseCase) Execute(request OrderPizzaRequest) (PizzaResponse, error) {
@@ -47,7 +44,7 @@ func (usecase orderPizzaUseCase) Execute(request OrderPizzaRequest) (PizzaRespon
 		return PizzaResponse{}, &InvalidAddressError{}
 	}
 
-	pizza, orderNumber, err := usecase.pizzaRepository.MakePizza(
+	pizza, orderNumber, err := usecase.pizzaFactory.MakePizza(
 		request.Dough,
 		request.Toppings,
 	)
