@@ -39,8 +39,12 @@ var _ = Describe("OrderPizzaHandler", func() {
 			useCase.ExecuteReturns(usecases.PizzaResponse{
 				EstimatedDelivery: time.Minute * 666}, nil)
 			paramReader.ReadParamsFromRequestReturns(
-				domain.Thin, []domain.Ingredient{domain.Pepperoni{}}, nil,
-			)
+				OrderPizzaParams{
+					Name:     "thuggish-ruggish-bone",
+					Address:  "thug-mansion",
+					Dough:    domain.Thin,
+					Toppings: []domain.Ingredient{domain.Pepperoni{}},
+				}, nil)
 			body := strings.NewReader(`
 {
 	"name": "thuggish-ruggish-bone",
@@ -67,21 +71,9 @@ var _ = Describe("OrderPizzaHandler", func() {
 		})
 	})
 
-	Describe("when the request body is not JSON", func() {
-		BeforeEach(func() {
-			body := strings.NewReader("whoops")
-			request, _ := http.NewRequest("POST", "http://example.com/pizza", body)
-			subject.ServeHTTP(responseWriter, request)
-		})
-
-		It("should set the response status code to 4xx", func() {
-			Expect(responseWriter.Code).To(Equal(http.StatusBadRequest))
-		})
-	})
-
 	Context("when the user requests some unknown dough", func() {
 		BeforeEach(func() {
-			paramReader.ReadParamsFromRequestReturns(0, nil, errors.New("whoops"))
+			paramReader.ReadParamsFromRequestReturns(OrderPizzaParams{}, errors.New("whoops"))
 			body := strings.NewReader(`
 {
 	"name": "thuggish-ruggish-bone",
@@ -96,11 +88,15 @@ var _ = Describe("OrderPizzaHandler", func() {
 		It("should set the response status code to 4xx", func() {
 			Expect(responseWriter.Code).To(Equal(http.StatusBadRequest))
 		})
+
+		It("should inform the user their request was bad", func() {
+			Expect(responseWriter.Body.String()).ToNot(BeEmpty())
+		})
 	})
 
 	Context("when the user requests some totally unknown ingredient", func() {
 		BeforeEach(func() {
-			paramReader.ReadParamsFromRequestReturns(0, nil, errors.New("whoops"))
+			paramReader.ReadParamsFromRequestReturns(OrderPizzaParams{}, errors.New("whoops"))
 			body := strings.NewReader(`
 {
 	"name": "thuggish-ruggish-bone",
@@ -114,6 +110,10 @@ var _ = Describe("OrderPizzaHandler", func() {
 
 		It("should set the response status code to 4xx", func() {
 			Expect(responseWriter.Code).To(Equal(http.StatusBadRequest))
+		})
+
+		It("should inform the user their request was bad", func() {
+			Expect(responseWriter.Body.String()).ToNot(BeEmpty())
 		})
 	})
 
@@ -133,6 +133,10 @@ var _ = Describe("OrderPizzaHandler", func() {
 
 		It("should set the response status code to 4xx", func() {
 			Expect(responseWriter.Code).To(Equal(http.StatusBadRequest))
+		})
+
+		It("should inform the user their request was bad", func() {
+			Expect(responseWriter.Body.String()).ToNot(BeEmpty())
 		})
 	})
 })

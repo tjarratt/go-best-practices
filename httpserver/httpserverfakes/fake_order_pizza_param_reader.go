@@ -5,24 +5,22 @@ import (
 	"net/http"
 	"sync"
 
-	"github.com/tjarratt/go-best-practices/domain"
 	"github.com/tjarratt/go-best-practices/httpserver"
 )
 
 type FakeOrderPizzaParamReader struct {
-	ReadParamsFromRequestStub        func(*http.Request) (domain.DoughType, []domain.Ingredient, error)
+	ReadParamsFromRequestStub        func(*http.Request) (httpserver.OrderPizzaParams, error)
 	readParamsFromRequestMutex       sync.RWMutex
 	readParamsFromRequestArgsForCall []struct {
 		arg1 *http.Request
 	}
 	readParamsFromRequestReturns struct {
-		result1 domain.DoughType
-		result2 []domain.Ingredient
-		result3 error
+		result1 httpserver.OrderPizzaParams
+		result2 error
 	}
 }
 
-func (fake *FakeOrderPizzaParamReader) ReadParamsFromRequest(arg1 *http.Request) (domain.DoughType, []domain.Ingredient, error) {
+func (fake *FakeOrderPizzaParamReader) ReadParamsFromRequest(arg1 *http.Request) (httpserver.OrderPizzaParams, error) {
 	fake.readParamsFromRequestMutex.Lock()
 	fake.readParamsFromRequestArgsForCall = append(fake.readParamsFromRequestArgsForCall, struct {
 		arg1 *http.Request
@@ -31,7 +29,7 @@ func (fake *FakeOrderPizzaParamReader) ReadParamsFromRequest(arg1 *http.Request)
 	if fake.ReadParamsFromRequestStub != nil {
 		return fake.ReadParamsFromRequestStub(arg1)
 	} else {
-		return fake.readParamsFromRequestReturns.result1, fake.readParamsFromRequestReturns.result2, fake.readParamsFromRequestReturns.result3
+		return fake.readParamsFromRequestReturns.result1, fake.readParamsFromRequestReturns.result2
 	}
 }
 
@@ -47,13 +45,12 @@ func (fake *FakeOrderPizzaParamReader) ReadParamsFromRequestArgsForCall(i int) *
 	return fake.readParamsFromRequestArgsForCall[i].arg1
 }
 
-func (fake *FakeOrderPizzaParamReader) ReadParamsFromRequestReturns(result1 domain.DoughType, result2 []domain.Ingredient, result3 error) {
+func (fake *FakeOrderPizzaParamReader) ReadParamsFromRequestReturns(result1 httpserver.OrderPizzaParams, result2 error) {
 	fake.ReadParamsFromRequestStub = nil
 	fake.readParamsFromRequestReturns = struct {
-		result1 domain.DoughType
-		result2 []domain.Ingredient
-		result3 error
-	}{result1, result2, result3}
+		result1 httpserver.OrderPizzaParams
+		result2 error
+	}{result1, result2}
 }
 
 var _ httpserver.OrderPizzaParamReader = new(FakeOrderPizzaParamReader)

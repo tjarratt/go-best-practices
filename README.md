@@ -38,7 +38,7 @@ Some of the practices and principles I tried to demonstrate in this sample proje
 * [x] pizza repository
 * [x] wire up /pizza/order to usecase
 * [x] minimal gexec test
-* [ ] gexec test asserts we can make a single http request
+* [x] gexec test asserts we can make a single http request
 * [ ] middleware (composition)
 * [ ] logging
 * [ ] stats ?

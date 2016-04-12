@@ -1,9 +1,7 @@
 package httpserver
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 
 	"github.com/tjarratt/go-best-practices/usecases"
@@ -26,34 +24,23 @@ type orderPizzaHandler struct {
 
 func (handler orderPizzaHandler) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 
-	bodyStr, err := ioutil.ReadAll(request.Body)
+	params, err := handler.paramReader.ReadParamsFromRequest(request)
 	if err != nil {
 		writer.WriteHeader(http.StatusBadRequest)
-		return
-	}
-
-	var body map[string]interface{}
-	err = json.Unmarshal(bodyStr, &body)
-	if err != nil {
-		writer.WriteHeader(http.StatusBadRequest)
-		return
-	}
-
-	doughType, toppings, err := handler.paramReader.ReadParamsFromRequest(request)
-	if err != nil {
-		writer.WriteHeader(http.StatusBadRequest)
+		writer.Write([]byte(err.Error()))
 		return
 	}
 
 	response, err := handler.useCase.Execute(usecases.OrderPizzaRequest{
-		Whom:     body["name"].(string),
-		Address:  body["address"].(string),
-		Dough:    doughType,
-		Toppings: toppings,
+		Whom:     params.Name,
+		Address:  params.Address,
+		Dough:    params.Dough,
+		Toppings: params.Toppings,
 	})
 
 	if err != nil {
 		writer.WriteHeader(http.StatusBadRequest)
+		writer.Write([]byte(err.Error()))
 		return
 	}
 

@@ -2,6 +2,7 @@ package httpserver
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -11,7 +12,14 @@ import (
 
 //go:generate counterfeiter . OrderPizzaParamReader
 type OrderPizzaParamReader interface {
-	ReadParamsFromRequest(*http.Request) (domain.DoughType, []domain.Ingredient, error)
+	ReadParamsFromRequest(*http.Request) (OrderPizzaParams, error)
+}
+
+type OrderPizzaParams struct {
+	Dough    domain.DoughType
+	Toppings []domain.Ingredient
+	Name     string
+	Address  string
 }
 
 func NewOrderPizzaParamReader() OrderPizzaParamReader {
@@ -22,16 +30,16 @@ type orderPizzaParamReader struct{}
 
 func (paramReader orderPizzaParamReader) ReadParamsFromRequest(
 	request *http.Request,
-) (domain.DoughType, []domain.Ingredient, error) {
+) (OrderPizzaParams, error) {
 	bodyStr, err := ioutil.ReadAll(request.Body)
 	if err != nil {
-		return 0, nil, err
+		return OrderPizzaParams{}, err
 	}
 
 	var body map[string]interface{}
 	err = json.Unmarshal(bodyStr, &body)
 	if err != nil {
-		return 0, nil, err
+		return OrderPizzaParams{}, fmt.Errorf("Expected the request body to be JSON but it was '%s'", bodyStr)
 	}
 
 	var (
@@ -51,15 +59,30 @@ func (paramReader orderPizzaParamReader) ReadParamsFromRequest(
 	case "", nil:
 		dough = domain.Regular
 	default:
-		return 0, nil, fmt.Errorf("unknown dough type '%s'", body["dough"])
+		return OrderPizzaParams{}, fmt.Errorf("unknown dough type '%s'", body["dough"])
 	}
 
 	toppings, err = parseToppingsFromBody(body)
 	if err != nil {
-		return 0, nil, fmt.Errorf("Bad request. The toppings are malformed!")
+		return OrderPizzaParams{}, fmt.Errorf("Bad request. The toppings are malformed!")
 	}
 
-	return dough, toppings, nil
+	name, ok := body["name"].(string)
+	if !ok {
+		return OrderPizzaParams{}, errors.New("Bad request. Name is malformed")
+	}
+
+	address, ok := body["address"].(string)
+	if !ok {
+		return OrderPizzaParams{}, errors.New("Bad request. Address is malformed")
+	}
+
+	return OrderPizzaParams{
+		Name:     name,
+		Address:  address,
+		Dough:    dough,
+		Toppings: toppings,
+	}, nil
 }
 
 func parseToppingsFromBody(body map[string]interface{}) ([]domain.Ingredient, error) {
