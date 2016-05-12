@@ -13,7 +13,7 @@ Some of the practices and principles I tried to demonstrate in this sample proje
 * [Composition over inheritance][coi]
 * [Dependency injection][di] using hand-rolled constructor functions
 * [Declaring interface for dependencies near the consumer][interface]
-* [Vendored dependencies][dependencies] with [gvt][gvt]
+* [Vendored dependencies][dependencies] with a [vendoring] tool [you enjoy using](#notes)
 * [Responsible usage of concurrency][concurrency]
 * [Minimal integration tests][integrated] with [Gomega's gexec package][gexec]
 
@@ -27,7 +27,7 @@ Some of the practices and principles I tried to demonstrate in this sample proje
 [concurrency]: https://divan.github.io/posts/go_concurrency_visualize/
 [integrated]: http://blog.thecodewhisperer.com/permalink/integrated-tests-are-a-scam
 [dependencies]: https://docs.google.com/document/d/1Bz5-UB7g2uPBdOx-rw5t9MxJwkfpx90cqG9AFL0JAYo/edit
-[gvt]: https://github.com/FiloSottile/gvt
+[vendoring]: https://github.com/FiloSottile/gvt
 [gexec]: https://onsi.github.io/gomega/#gexec-testing-external-processes
 
 ### TODO
@@ -45,3 +45,6 @@ Some of the practices and principles I tried to demonstrate in this sample proje
 * [ ] configuration (port, log server, stats server)
 * [ ] panic handler (middleware?)
 * [ ] find a better name for "domain" package (h/t to Dave Cheney)
+
+#notes
+* I prefer using `gvt` to manage my dependencies, but you may prefer `godep`, or just doing it by hand. So long as you keep your dependencies tracked, make it easy to setup new development environments and bump dependencies regularly, you should be fine.
