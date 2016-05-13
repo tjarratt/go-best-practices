@@ -16,6 +16,7 @@ Some of the practices and principles I tried to demonstrate in this sample proje
 * [Vendored dependencies][dependencies] with a [vendoring] tool [you enjoy using](#notes)
 * [Responsible usage of concurrency][concurrency]
 * [Minimal integration tests][integrated] with [Gomega's gexec package][gexec]
+* [Avoid named returns](named-returns) in functions whenever possible
 
 [Ginkgo]: https://github.com/onsi/ginkgo
 [Gomega]: https://github.com/onsi/gomega
@@ -29,6 +30,7 @@ Some of the practices and principles I tried to demonstrate in this sample proje
 [dependencies]: https://docs.google.com/document/d/1Bz5-UB7g2uPBdOx-rw5t9MxJwkfpx90cqG9AFL0JAYo/edit
 [vendoring]: https://github.com/FiloSottile/gvt
 [gexec]: https://onsi.github.io/gomega/#gexec-testing-external-processes
+[named-returns]: https://github.com/cloudfoundry/cli/wiki/Coding-Style-Guide#named-return-args
 
 ### TODO
 * [x] main.go
