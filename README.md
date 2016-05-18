@@ -16,7 +16,7 @@ Some of the practices and principles I tried to demonstrate in this sample proje
 * [Vendored dependencies][dependencies] with a [vendoring] tool [you enjoy using](#notes)
 * [Responsible usage of concurrency][concurrency]
 * [Minimal integration tests][integrated] with [Gomega's gexec package][gexec]
-* [Avoid named returns](named-returns) in functions whenever possible
+* [Avoid named returns][named-returns] in functions whenever possible
 
 [Ginkgo]: https://github.com/onsi/ginkgo
 [Gomega]: https://github.com/onsi/gomega
