@@ -9,6 +9,7 @@ This was inspired by Can Berk Guder's [iOS best practices repo](https://github.c
 Some of the practices and principles I tried to demonstrate in this sample project are:
 
 * [Test-driven development][tdd] using [Ginkgo][] and [Gomega][]
+* [Type-safe test doubles][counterfeiter] using [Counterfeiter]
 * [Single responsibility principle][srp]
 * [Composition over inheritance][coi]
 * [Dependency injection][di] using hand-rolled constructor functions
@@ -20,6 +21,7 @@ Some of the practices and principles I tried to demonstrate in this sample proje
 
 [Ginkgo]: https://github.com/onsi/ginkgo
 [Gomega]: https://github.com/onsi/gomega
+[Counterfeiter]: https://github.com/maxbrunsfeld/counterfeiter
 [coi]: http://en.wikipedia.org/wiki/Composition_over_inheritance
 [di]: http://en.wikipedia.org/wiki/Dependency_injection
 [srp]: http://en.wikipedia.org/wiki/Single_responsibility_principle
